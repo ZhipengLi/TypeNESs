@@ -1,0 +1,455 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript HTML APP</title>
+    <link rel="stylesheet" href="app.css" type="text/css" />
+    <style>
+        body{  
+            background: linear-gradient(rgba(0,0,0,0.1),rgba(0,0,0,0.1)), url(images/background.png) center;
+            background-repeat: repeat-y repeat-y;
+        }
+        #wrapper {
+            left:0;
+            right:0;
+            margin:0 auto;
+            top:0;
+            width:100%;
+            height:96%;
+            max-width: 530px;
+            align-content: center;
+            background: rgba(255,255,255,0.5);
+            position:absolute;
+        }
+        #title-image {
+            width:280px;
+            margin:auto;
+            display:block;
+        }
+        .nes{
+            width:100%;
+            height:90%;
+            position:relative; 
+            left:10%;
+            right:2%;
+            z-index: 1;
+        }
+        #canvasContainer{
+            position:relative;
+            z-index: 2;
+        }
+        #canvasDiv{
+            margin-top:5px;
+            width:512px;
+            height:400px;
+        }
+        canvas {
+            border:1px dashed #777; 
+            background-color: #ccc;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            width: 80%
+            
+        }
+        #maintitle{
+            color:red;
+        }
+        
+        .three-d-key {
+	-moz-box-shadow: 3px 4px 0px 0px #8a2a21;
+	-webkit-box-shadow: 3px 4px 0px 0px #8a2a21;
+	box-shadow: 3px 4px 0px 0px #8a2a21;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #c62d1f), color-stop(1, #f24437));
+	background:-moz-linear-gradient(top, #c62d1f 5%, #f24437 100%);
+	background:-webkit-linear-gradient(top, #c62d1f 5%, #f24437 100%);
+	background:-o-linear-gradient(top, #c62d1f 5%, #f24437 100%);
+	background:-ms-linear-gradient(top, #c62d1f 5%, #f24437 100%);
+	background:linear-gradient(to bottom, #c62d1f 5%, #f24437 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#c62d1f', endColorstr='#f24437',GradientType=0);
+	background-color:#c62d1f;
+	-moz-border-radius:18px;
+	-webkit-border-radius:18px;
+	border-radius:18px;
+	border:1px solid #d02718;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:7px 25px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #810e05;
+}
+.three-d-key:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f24437), color-stop(1, #c62d1f));
+	background:-moz-linear-gradient(top, #f24437 5%, #c62d1f 100%);
+	background:-webkit-linear-gradient(top, #f24437 5%, #c62d1f 100%);
+	background:-o-linear-gradient(top, #f24437 5%, #c62d1f 100%);
+	background:-ms-linear-gradient(top, #f24437 5%, #c62d1f 100%);
+	background:linear-gradient(to bottom, #f24437 5%, #c62d1f 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f24437', endColorstr='#c62d1f',GradientType=0);
+	background-color:#f24437;
+}
+.three-d-key:active {
+	position:relative;
+	top:1px;
+}
+
+        
+        .loadGameBtn {
+	-moz-box-shadow:inset 0px 39px 0px -24px #e67a73;
+	-webkit-box-shadow:inset 0px 39px 0px -24px #e67a73;
+	box-shadow:inset 0px 39px 0px -24px #e67a73;
+	background-color:#e4685d;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border-radius:4px;
+	border:1px solid #ffffff;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	padding:6px 15px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #b23e35;
+        }
+    .loadGameBtn:hover {
+        background-color:#eb675e;
+    }
+    .loadGameBtn:active {
+        position:relative;
+        top:1px;
+    }
+        
+        .joystick {
+            position:absolute;
+            width:100%;
+            height:150px;
+            bottom:0;
+            left:0;
+        }
+        #leftKey{
+            position:absolute;
+            top:50px;
+            left:0px;
+        }
+        #upKey{
+            position:absolute;
+            top:10px;
+            left:45px;
+        }
+        #rightKey{
+            position:absolute;
+            top:50px;
+            left:90px;
+        }
+        #downKey{
+            position:absolute;
+            top:90px;
+            left:45px;
+        }
+        #keyB{
+            position:absolute;
+            top:90px;
+            right:160px;
+        }
+        #keyA{
+            position:absolute;
+            top:90px;
+            right:100px;
+        }
+        #keySelect{
+            position:absolute;
+            top:45px;
+            left:185px;
+            background-color: #c62d1f;
+            color:white;
+            font-size: 16px;
+        }
+        #keyStart{
+            position:absolute;
+            top:45px;
+            left:255px;
+            background-color: #c62d1f;
+            color:white;
+            font-size: 16px;
+        }
+        #loadGame{
+            position:absolute;
+            right:100px;
+        }
+        #chooseFile{
+            /*margin-left: 35%;
+            margin-bottom:100px;
+            bottom: 25px;
+            z-index: 999;
+            position: relative;
+            width:100px;*/
+                        position:absolute;
+            bottom: 10px;
+            left:30%;
+        }
+        #readBtn {
+            /*background-color;*/ /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            width:100px;
+
+        }
+
+        input[type="file"] {
+            background-color:transparent;
+        }
+        #nes-status{
+            position:absolute;
+            bottom: 10px;
+            left:30%;
+        }
+    </style>
+    <script type="text/javascript" src="Scripts/CPU.js"></script>
+    <script type="text/javascript" src="Scripts/Keyboard.js"></script>
+    <script type="text/javascript" src="Scripts/Machine.js"></script>
+    <script type="text/javascript" src="Scripts/Mappers.js"></script>
+    <script type="text/javascript" src="Scripts/PPU.js"></script>
+    <script type="text/javascript" src="Scripts/APU.js"></script>
+    <script type="text/javascript" src="Scripts/ROM.js"></script>
+    <script type="text/javascript" src="Scripts/UI.js"></script>
+    <script type="text/javascript" src="Scripts/Debugger.js"></script>
+    <script type="text/javascript">
+        function loadDefaultGame() {
+            document.getElementById('chooseFile').style.display = 'none';
+            game = new NES.Machine();
+            game.ui.loadROM();
+        }
+    </script>
+</head>
+<body onkeydown="game.keyboard.keyDown(event)" onkeyup="game.keyboard.keyUp(event)" onkeypress="game.keyboard.keyPress(event)">
+    <div id="wrapper">
+        <div id="imageContainer" ><image id="title-image" src="images/title.PNG"></image></div>
+        <div class="nes">
+                <div id="canvasDiv">
+                <canvas width="256" height="240" id="nes-screen" ></canvas>
+                </div>
+                <div>
+                </div>
+                <div class="joystick">
+                    <button class="loadGameBtn" id="loadGame" onclick="loadDefaultGame();">Default Game</button>
+                    <button class="loadGameBtn" id="leftKey">&#x1f870;</button>
+                    <button class="loadGameBtn" id="upKey">&#x1f871;</button>
+                    <button class="loadGameBtn" id="rightKey">&#x1f872;</button>
+                    <button class="loadGameBtn" id="downKey">&#x1f873;</button>
+                    <button class="loadGameBtn" id="keyB">B</button>
+                    <button class="loadGameBtn" id="keyA">A</button>
+                    <button class="function-key" id="keySelect">Select</button>
+                    <button class="function-key" id="keyStart">Start</button>
+                    <div id="chooseFile">
+                        <input id="readBtn" type="file" text="read nes file">
+                    </div>
+                </div>
+            <div id="nes-status">status</div>
+        </div>
+    </div>
+    <div style="display:block; clear:both">
+        <div style="width:800px; height:300px; overflow-y:scroll" id="debugWnd">
+        </div>
+    </div>
+    <script type="text/javascript">
+        if (typeof window.orientation !== 'undefined') {
+            document.getElementById("leftKey").addEventListener("touchstart", function(evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnDown(6);
+            });
+            document.getElementById("leftKey").addEventListener("touchend", function(evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnUp(6);
+            });
+            document.getElementById("upKey").addEventListener("touchstart", function(evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnDown(4);
+            });
+            document.getElementById("upKey").addEventListener("touchend", function(evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnUp(4);
+            });
+            document.getElementById("rightKey").addEventListener("touchstart", function(evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnDown(7);
+            });
+            document.getElementById("rightKey").addEventListener("touchend", function(evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnUp(7);
+            });
+            document.getElementById("downKey").addEventListener("touchstart", function(evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnDown(5);
+            });
+            document.getElementById("downKey").addEventListener("touchend", function(evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnUp(5);
+            });
+            document.getElementById("keyB").addEventListener("touchstart", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnDown(1);
+            });
+            document.getElementById("keyB").addEventListener("touchend", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnUp(1);
+            });
+            document.getElementById("keyA").addEventListener("touchstart", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnDown(0);
+            });
+            document.getElementById("keyA").addEventListener("touchend", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnUp(0);
+            });
+            document.getElementById("keySelect").addEventListener("touchstart", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnDown(2);
+            });
+            document.getElementById("keySelect").addEventListener("touchend", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnUp(2);
+            });
+            document.getElementById("keyStart").addEventListener("touchstart", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnDown(3);
+            });
+            document.getElementById("keyStart").addEventListener("touchend", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnUp(3);
+            });
+        } else {
+            document.getElementById("leftKey").addEventListener("mousedown", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnDown(6);
+            });
+            document.getElementById("leftKey").addEventListener("mouseup", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnUp(6);
+            });
+            document.getElementById("upKey").addEventListener("mousedown", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnDown(4);
+            });
+            document.getElementById("upKey").addEventListener("mouseup", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnUp(4);
+            });
+            document.getElementById("rightKey").addEventListener("mousedown", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnDown(7);
+            });
+            document.getElementById("rightKey").addEventListener("mouseup", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnUp(7);
+            });
+            document.getElementById("downKey").addEventListener("mousedown", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnDown(5);
+            });
+            document.getElementById("downKey").addEventListener("mouseup", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnUp(5);
+            });
+            document.getElementById("keyB").addEventListener("mousedown", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnDown(1);
+            });
+            document.getElementById("keyB").addEventListener("mouseup", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnUp(1);
+            });
+            document.getElementById("keyA").addEventListener("mousedown", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnDown(0);
+            });
+            document.getElementById("keyA").addEventListener("mouseup", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnUp(0);
+            });
+            document.getElementById("keySelect").addEventListener("mousedown", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnDown(2);
+            });
+            document.getElementById("keySelect").addEventListener("mouseup", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnUp(2);
+            });
+            document.getElementById("keyStart").addEventListener("mousedown", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnDown(3);
+            });
+            document.getElementById("keyStart").addEventListener("mouseup", function (evt) {
+                evt.preventDefault();
+                game.keyboard.touchBtnUp(3);
+            });
+
+            document.getElementById('readBtn').addEventListener('change', handleFileSelect, false);
+            function handleFileSelect(evt) {
+                var files = evt.target.files; // FileList object
+                if (!files.length) {
+                    alert('Please select a file!');
+                    return;
+                }
+                var file = files[0];
+                //if (!file.name.endsWith('.nes')) {
+                //    alert('Please select an NES file!');
+                //    return;
+                //}
+                var reader = new FileReader();
+                var blob = file.slice(0, file.size - 1);
+                reader.readAsArrayBuffer(blob);
+                // If we use onloadend, we need to check the readyState.
+                reader.onloadend = function (evt) {
+                    if (evt.target.readyState == FileReader.DONE) { // DONE == 2
+                        alert("read succeeded!");
+                        //document.getElementById('output').value = //evt.target.result;
+                        var arr = new Int8Array(evt.target.result);
+                        //alert(arr[0]);
+                        game = new NES.Machine();
+                        game.loadRom(arr);
+                        game.start();
+                        document.getElementById('readBtn').style.display = 'none';
+                    }
+                };
+            }
+        }
+        var c = document.getElementById("nes-screen");
+        var ctx = c.getContext("2d");
+
+        ctx.font = "15px Georgia bold";
+        ctx.fillText("Button Mapping", 10, 30);
+        ctx.font = "10px Georgia";
+        ctx.fillText("JoyStick:", 10, 55);
+        ctx.fillText("=> Computer Keyboard:", 80, 55);
+        ctx.fillText("A", 10, 70);
+        ctx.fillText("B", 10, 80);
+        ctx.fillText("START", 10, 90);
+        ctx.fillText("SELECT", 10, 100);
+        ctx.fillText("LEFT", 10, 110);
+        ctx.fillText("RIGHT", 10, 120);
+        ctx.fillText("UP", 10, 130);
+        ctx.fillText("DOWN", 10, 140);
+        ctx.fillText("=> X", 80, 70);
+        ctx.fillText("=> Z", 80, 80);
+        ctx.fillText("=> ENTER", 80, 90);
+        ctx.fillText("=> CTRL", 80, 100);
+        ctx.fillText("=> LEFT", 80, 110);
+        ctx.fillText("=> RIGHT", 80, 120);
+        ctx.fillText("=> UP", 80, 130);
+        ctx.fillText("=> DOWN", 80, 140);
+    </script>
+</body>
+</html>

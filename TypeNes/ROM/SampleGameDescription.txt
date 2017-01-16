@@ -1,0 +1,3 @@
+Alter Ego is a free homebrew NES game.
+This game is for emulator testing purpose.
+http://forums.nesdev.com/viewtopic.php?p=81978
